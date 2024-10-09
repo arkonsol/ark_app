@@ -22,6 +22,7 @@ interface GovernanceFormState {
   regions: string[];
   ageGroups: string[];
   otherDemographic: string[];
+  [key: string]: any;
   nftSymbol: string;
   splSymbol: string;
   nftSupply: string;
@@ -78,15 +79,17 @@ const SortitionCreationForm: React.FC<SortitionCreationFormProps> = ({ governanc
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setGovernanceForm(prev => {
+    setGovernanceForm((prev: GovernanceFormState) => {
       if (name.startsWith('regions[') || name.startsWith('ageGroups[') || name.startsWith('otherDemographic[')) {
-        const [arrayName, index] = name.split('[');
-        const arrayIndex = parseInt(index);
-        // const newArray = [...prev[arrayName.slice(0, -1)]];
-        // newArray[arrayIndex] = value;
-        // return { ...prev, [arrayName.slice(0, -1)]: newArray };
+        const [arrayName, indexStr] = name.split('[');
+        const arrayIndex = parseInt(indexStr);
+        const arrayKey = arrayName as keyof Pick<GovernanceFormState, 'regions' | 'ageGroups' | 'otherDemographic'>;
+        const newArray = [...prev[arrayKey]];
+        newArray[arrayIndex] = value;
+        return { ...prev, [arrayKey]: newArray };
       }
-      return { ...prev, [name]: value };
+      // Use type assertion here
+      return { ...prev, [name as keyof GovernanceFormState]: value };
     });
   };
 
