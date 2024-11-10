@@ -1,0 +1,57 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            String      @id @default(cuid())
+  username      String      @unique
+  walletAddress String      @unique
+  createdAt     DateTime    @default(now())
+  lastActive    DateTime    @updatedAt
+  status        String      @default("offline")  // 'online' | 'offline' | 'away'
+  preferences   Json        @default("{\"theme\":\"light\",\"notifications\":true,\"soundEnabled\":false}")
+  messages      Message[]
+  paos          PAOMember[]
+}
+
+model PAO {
+  id            String      @id @default(cuid())
+  name          String
+  createdAt     DateTime    @default(now())
+  messages      Message[]
+  members       PAOMember[]
+}
+
+model PAOMember {
+  id         String    @id @default(cuid())
+  pao        PAO       @relation(fields: [paoId], references: [id])
+  paoId      String
+  user       User      @relation(fields: [userId], references: [id])
+  userId     String
+  role       String    @default("member")  // 'admin' | 'member'
+  joinedAt   DateTime  @default(now())
+
+  @@unique([paoId, userId])
+}
+
+model Message {
+  id          String    @id @default(cuid())
+  content     String
+  type        String    // 'text' | 'emoji' | 'image' | 'video' | 'audio' | 'document'
+  status      String    // 'sending' | 'sent' | 'delivered' | 'read'
+  pao         PAO       @relation(fields: [paoId], references: [id])
+  paoId       String
+  sender      User      @relation(fields: [senderId], references: [id])
+  senderId    String
+  replyTo     Message?  @relation("MessageReplies", fields: [replyToId], references: [id])
+  replyToId   String?
+  replies     Message[] @relation("MessageReplies")
+  metadata    Json?     // For additional message data
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
