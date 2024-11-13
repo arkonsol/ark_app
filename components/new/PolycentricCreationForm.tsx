@@ -216,7 +216,7 @@ const PolycentricCreationForm: React.FC<PolycentricCreationFormProps> = ({ gover
         <h2 className="text-2xl font-semibold mb-4">
           <FiCheck className="inline-block mr-2" /> Initialize and Register Government
         </h2>
-        <p>Government initialization and registration is automatic upon component mount.</p>
+        <p>Government initialization and registration is automatic.</p>
       </motion.div>
 
       <motion.form

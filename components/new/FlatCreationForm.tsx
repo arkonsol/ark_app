@@ -11,7 +11,7 @@ import { getAssociatedTokenAddress, TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_I
 // Import your IDL
 import idl from '../../idl/flat.json';
 
-const PROGRAM_ID = new PublicKey('FNF2M3rVeAhQ28VTCNVYzfKTnX1ZcStGuDZ9geVzY38Q');
+const PROGRAM_ID = new PublicKey('9y6z2L9hCjt9p6SuTw1q6vMfz4ZjwvMReMyLquYJNnRp');
 
 interface FlatDaoCreationFormProps {
   governanceType: 'flat-dao';

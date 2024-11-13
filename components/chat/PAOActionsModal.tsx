@@ -44,7 +44,7 @@ const DAOActionsModal: React.FC<DAOActionsModalProps> = ({
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-white rounded-lg p-6 w-full max-w-md"
+            className="bg-white rounded-lg p-6 w-full max-w-md mx-4"
           >
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold text-teal-600">DAO Actions</h2>
